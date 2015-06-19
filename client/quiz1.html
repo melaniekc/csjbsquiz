@@ -1,0 +1,55 @@
+<template name="quiz1">
+
+	<h1>Quiz 1</h1>
+	<div></div>
+	<br>
+
+	<div class="row">
+		<div class="col-md-6">
+			
+			{{> projectForm}}
+		</div>
+
+		<div class="col-md-6">
+			<h4>Class projects</h4>
+			<table class="table table-condensed">
+				<thead>
+					<tr><th>Project Name</th><th>First Name</th><th>Last Name</th><th>Meteor URL</th><th>Github URL</th></tr>
+				</thead>
+				<tbody>
+				{{#each projects}}
+					{{> tableRow}}
+				{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>	
+
+</template>
+
+<template name= "projectForm">
+	<form id="project_form">
+		<h4>Please fill out your information:</h4><br/>
+		Project name: <input type="text" name="proj">
+		<br>
+		First name: <input type="text" name="first">
+		Last name: <input type="text" name="last">
+		<br>
+		Meteor project URL: <input type="text" name="meteor">
+		<br>
+		Github repository URL: <input type="text" name="github">
+		<br>
+		<input type="submit">
+	</form>
+</template>
+
+<template name="tableRow">
+	<tr>
+		<td>{{project}}</td>
+		<td>{{firstName}}</td>
+		<td>{{lastName}}</td>
+		<td><a href={{meteorURL}}>{{meteorURL}}</a></td>
+		<td><a href={{githubURL}}>{{githubURL}}</a></td>
+		<td><span class="glyphicon glyphicon-remove delete-icon" aria-hidden="true"></span></td>
+	</tr>
+</template>
