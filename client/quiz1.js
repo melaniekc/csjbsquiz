@@ -7,15 +7,14 @@ Template.quiz1.events({
 		var meteorURL = event.target.meteor.value;
 		var githubURL = event.target.github.value;
 
-		Projects.insert({project:project, firstName:firstName, lastName:lastName,
-			meteorURL:meteorURL, githubURL:githubURL});
+		Projects.insert({project:project, firstName:firstName, lastName:lastName, meteorURL:meteorURL, githubURL:githubURL});
 	}
 });
 
 Template.quiz1.helpers({
-   projects: function(){return Projects.find({})},
+   projects: function(){return Projects.find({},{sort:{project:1,firstName:1,lastName:1}})},
  });
 
-Template.tableRow.helpers({
+Template.tableRow.events({
 	"click .delete-icon": function(){Projects.remove(this._id);}
 });
