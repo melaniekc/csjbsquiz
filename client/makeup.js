@@ -79,7 +79,6 @@ function drawPoly(){
 				newX = e.pageX - canvas.offsetLeft;
 				newY = e.pageY - canvas.offsetTop;
 		    	drawContext.lineTo(newX,newY);
-		    	console.log(newX,newY);
 		    	drawContext.strokeStyle="yellow";
 		    	drawContext.stroke();
 		    	drawContext.closePath();
@@ -89,7 +88,6 @@ function drawPoly(){
 
 	canvas.addEventListener("mousedown",
 		function(e){
-			redrawStoredLines();
 			if(newLine){
 				drawing=true;
 				startX = e.pageX - canvas.offsetLeft;
