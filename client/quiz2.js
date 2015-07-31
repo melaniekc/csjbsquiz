@@ -40,64 +40,64 @@ Template.quiz2.events({
 
 marker = board.marker;
 
-Template.quiz2.rendered = function(){
-	document.getElementById("canvas").addEventListener("mousedown", 
-		function(e){
-			marker.update();
-    		marker.drawing=true;
-    		addClick(marker.x,marker.y);
-    		draw();
-		}
-	)
-};
-Template.quiz2.rendered = function(){
-	document.getElementById("canvas").addEventListener("mousemove", 
-		function(e){
-			if(marker.drawing){
-				marker.update();
-	    		addClick(marker.x,marker.y,true);
-	    		draw();
-	  		}
-		}
-	)
-};
-Template.quiz2.rendered = function(){
-	document.getElementById("canvas").addEventListener("mouseup", 
-		function(e){
-			marker.drawing=false;
-		}
-	)
-};
+// Template.quiz2.rendered = function(){
+// 	document.getElementById("canvas").addEventListener("mousedown", 
+// 		function(e){
+// 			marker.update();
+//     		marker.drawing=true;
+//     		addClick(marker.x,marker.y);
+//     		draw();
+// 		}
+// 	)
+// };
+// Template.quiz2.rendered = function(){
+// 	document.getElementById("canvas").addEventListener("mousemove", 
+// 		function(e){
+// 			if(marker.drawing){
+// 				marker.update();
+// 	    		addClick(marker.x,marker.y,true);
+// 	    		draw();
+// 	  		}
+// 		}
+// 	)
+// };
+// Template.quiz2.rendered = function(){
+// 	document.getElementById("canvas").addEventListener("mouseup", 
+// 		function(e){
+// 			marker.drawing=false;
+// 		}
+// 	)
+// };
 
-var clickX = new Array();
-var clickY = new Array();
-var clickDrag = new Array();
+// var clickX = new Array();
+// var clickY = new Array();
+// var clickDrag = new Array();
 
-function addClick(x,y,dragging)
-{
-  clickX.push(x);
-  clickY.push(y);
-  clickDrag.push(dragging);
-}
+// function addClick(x,y,dragging)
+// {
+//   clickX.push(x);
+//   clickY.push(y);
+//   clickDrag.push(dragging);
+// }
 
-function draw(){
-	console.log("drawing");
-  drawContext.clearRect(0,0,500,500);
-  drawContext.fillStyle="yellow";
-  drawContext.fillRect(0,0,500,500);
+// function draw(){
+// 	console.log("drawing");
+//   drawContext.clearRect(0,0,500,500);
+//   drawContext.fillStyle="yellow";
+//   drawContext.fillRect(0,0,500,500);
   
-  drawContext.strokeStyle = marker.c;
-  drawContext.lineWidth = marker.r;
+//   drawContext.strokeStyle = marker.c;
+//   drawContext.lineWidth = marker.r;
 			
-  for(var i=0; i < clickX.length; i++) {		
-    drawContext.beginPath();
-    if(clickDrag[i] && i) {
-      drawContext.moveTo(clickX[i-1], clickY[i-1]);
-     } else {
-       drawContext.moveTo(clickX[i]-1, clickY[i]);
-     }
-     drawContext.lineTo(clickX[i], clickY[i]);
-     drawContext.closePath();
-     drawContext.stroke();
-  }
-};
+//   for(var i=0; i < clickX.length; i++) {		
+//     drawContext.beginPath();
+//     if(clickDrag[i] && i) {
+//       drawContext.moveTo(clickX[i-1], clickY[i-1]);
+//      } else {
+//        drawContext.moveTo(clickX[i]-1, clickY[i]);
+//      }
+//      drawContext.lineTo(clickX[i], clickY[i]);
+//      drawContext.closePath();
+//      drawContext.stroke();
+//   }
+// };
