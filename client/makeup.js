@@ -3,17 +3,17 @@ var drawing=false;
 var newLine=true;
 var startX; var startY;
 var newX; var newY;
-var firstX; var firstY;
 var storedLines=[];
 var stopDrawing=false;
 
 Template.makeup.rendered = function (){ 
-	console.log("draw canvas");
+	console.log("canvas rendered");
+
 	drawContext = canvas.getContext("2d");
-	drawContext.fillStyle="gray";
+	drawContext.fillStyle="#cccccc";
 	drawContext.fillRect(0,0,canvas.width,canvas.height);
 
-	if (storedLines.length==0){
+	if (storedLines.length==0){ // first time rendering
 		drawFirstTriangle();
 	} else {
 		redrawStoredLines();
@@ -22,14 +22,18 @@ Template.makeup.rendered = function (){
 
 Template.makeup.events({
 	"click #erase": function(event){
-		console.log("erase polygon");
+		console.log("erased polygon");
+
 		redrawCanvas();
 		storedLines=[];
+		stopDrawing=false;
 		drawing=false;
 	},
 	"click #draw": function(event){
+		console.log("starting new polygon");
 
 		// reset
+		storedLines=[];
 		stopDrawing=false;
 		newLine=true;
 		startX=undefined; startY=undefined;
@@ -53,7 +57,7 @@ function drawFirstTriangle(){
 
 function redrawCanvas(){
 	drawContext.clearRect(0,0,canvas.width,canvas.height);
-	drawContext.fillStyle="gray";
+	drawContext.fillStyle="#cccccc";
 	drawContext.fillRect(0,0,canvas.width,canvas.height);
 }
 
@@ -61,21 +65,21 @@ function drawPoly(){
 	var canvas = document.getElementById("canvas");
 	canvas.addEventListener("mousemove", 
 		function(e){
-			if(stopDrawing){
-				redrawStoredLines();
-				drawing=false;
-				return;
-			}
 			if(drawing){
-				console.log("drawing polygon");
+			redrawStoredLines();
 
-				redrawStoredLines();
+				if(stopDrawing){
+					drawing=false;
+					return;
+				}
 
+				// draw yellow line
 				drawContext.beginPath();
 				drawContext.moveTo(startX,startY);
 				newX = e.pageX - canvas.offsetLeft;
 				newY = e.pageY - canvas.offsetTop;
 		    	drawContext.lineTo(newX,newY);
+		    	console.log(newX,newY);
 		    	drawContext.strokeStyle="yellow";
 		    	drawContext.stroke();
 		    	drawContext.closePath();
@@ -86,10 +90,6 @@ function drawPoly(){
 	canvas.addEventListener("mousedown",
 		function(e){
 			redrawStoredLines();
-			if(stopDrawing){
-				drawing=false;
-				return;
-			}
 			if(newLine){
 				drawing=true;
 				startX = e.pageX - canvas.offsetLeft;
@@ -97,15 +97,16 @@ function drawPoly(){
 		    	newLine=false;
 		    } else {
 		    	drawing=false;
-		    	if (!stopDrawing) storedLines.push({x1:startX, y1:startY, x2:newX, y2:newY});
+		    	storedLines.push({x1:startX, y1:startY, x2:newX, y2:newY});
 		    	startX=newX;
 		    	startY=newY;
 		    }
 
 		    // Check whether polygon is complete
 		    if (storedLines.length>0){
-				firstX=storedLines[0].x1;
-				firstY=storedLines[0].y1;
+				var firstX=storedLines[0].x1;
+				var firstY=storedLines[0].y1;
+				console.log(firstX,firstY);
 				// if the line ends less than 10 px from the starting point
 				stopDrawing=((Math.abs(firstX-startX))<=10 && (Math.abs(firstY-startY))<=10);
 			}
@@ -113,10 +114,6 @@ function drawPoly(){
 	);
 	canvas.addEventListener("mouseup",
 		function(e){
-			if(stopDrawing){
-				drawing=false;
-				return;
-			}
    			drawing=true;
 		}
 	);
@@ -125,12 +122,13 @@ function drawPoly(){
  function redrawStoredLines(){
 
         if (drawing){
+
         	// clear canvas 
         	redrawCanvas();
 
 	        // redraw each stored line
 	        for(var i=0;i<storedLines.length;i++){
-	        	console.log("drawing old line");
+	        	// final green lines
 	            drawContext.beginPath();
 	            drawContext.moveTo(storedLines[i].x1,storedLines[i].y1);
 	            drawContext.lineTo(storedLines[i].x2,storedLines[i].y2);
